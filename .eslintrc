@@ -1,0 +1,10 @@
+parser: "babel-eslint"
+plugins: ["eslint-plugin-react"]
+ecmaFeatures:
+    jsx: true
+env:
+    browser: true
+    node: true
+    amd: false
+    mocha: true
+    jasmine: false
