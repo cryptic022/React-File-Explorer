@@ -10,8 +10,8 @@ var data = {
             id:2,
             children: [
                 { name: 'app.txt',id:3 },
-                { name: 'data.txt', id:3 },
-                { name: 'index.png' , id:3}
+                { name: 'data.txt', id:4 },
+                { name: 'index.png' , id:5}
             ]
         },
         {
@@ -22,17 +22,17 @@ var data = {
         },
         {
             name: 'src',
-            id:5,
+            id:6,
             children: [
                 {
                     name: 'components',
-                    id:6,
+                    id:7,
                     children: [
-                        { name: 'decorators.txt',id:7 },
-                        { name: 'treebeard.png',id:8 }
+                        { name: 'decorators.txt',id:8 },
+                        { name: 'treebeard.png',id:9}
                     ]
                 },
-                { name: 'index.txt',id:9 }
+                { name: 'index.txt',id:19 }
             ]
         },
         {

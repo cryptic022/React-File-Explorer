@@ -1,11 +1,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { ContextMenu, MenuItem, connect } from 'react-contextmenu';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
-import MenuTypes from './constants';
+import FileIcon from './FileIcon';
 
-class ContextMenuIcon extends Component {
+function collect(props) {
+    return { name: props.name };
+}
+
+export default class ContextMenuIcon extends Component {
 
 	constructor(){
 		super();
@@ -13,21 +17,19 @@ class ContextMenuIcon extends Component {
 	}
 
 	handleClick(e,data){
-			console.log(e,data);
+			console.log(this.refs.iconImage);
 	}
 
 	render(){
-
+		const {data1, imgSrc} = this.props;
 		return (
-            <ContextMenu identifier={MenuTypes.contentMenuIcon}>
-                <MenuItem onClick={this.handleClick} data={{item: "item 1"}}>cut</MenuItem>
-                <MenuItem onClick={this.handleClick} data={{item: "item 2"}}>copy</MenuItem>
-                <MenuItem onClick={this.handleClick} data={{item: "item 2"}}>delete</MenuItem>
-                <MenuItem onClick={this.handleClick} data={{item: "item 2"}}>rename</MenuItem>
-            </ContextMenu>
+         <ContextMenuTrigger id={'multi'} holdToDisplay={1000}
+                collect={collect} >
+                 <FileIcon imgSrc={imgSrc} key={data1.name} ref="iconImage" value={data1}/>
+         </ContextMenuTrigger>
         );
 	}
 }
 
-export default connect(ContextMenuIcon);
+
 

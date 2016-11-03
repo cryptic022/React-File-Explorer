@@ -13,6 +13,8 @@ import ImageIcon from './assets/image.png';
 
 import FileIcon from './FileIcon';
 
+import ContextMenuIcon from './ContextMenuIcon';
+
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 
@@ -31,10 +33,11 @@ function collect(props) {
 const HELP_MSG = 'Select A Node To See Its Data Structure Here...';
 
 export default class NodeViewer extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.handleClick = this.handleClick.bind(this);
     }
-    render(){
+    render() {
         const attributes = {
             'data-count': 0,
             className: 'example-multiple-targets well'
@@ -44,42 +47,43 @@ export default class NodeViewer extends React.Component {
         let json = JSON.stringify(this.props.node, null, 4);
         let jsonChildren = json !== undefined ? this.props.node.children !== undefined ? this.props.node.children : [this.props.node] : null;
         let imgSrc = '';
-        if(!json){ json = HELP_MSG; }
+        if (!json) { json = HELP_MSG; }
         return (
             <div style={style.base}>
-                { jsonChildren ? jsonChildren.map((data1) => {
-                    if(data1.children !== undefined){
+                {jsonChildren ? jsonChildren.map((data1, index) => {
+                    if (data1.children !== undefined) {
                         imgSrc = FolderIcon;
-                    }else{
+                    } else {
                         let ext = data1.name.substr(data1.name.lastIndexOf('.') + 1);
-                        if(fileType(ext) !== -1){
+                        if (fileType(ext) !== -1) {
                             imgSrc = ImageIcon;
                         }
-                        else{
+                        else {
                             imgSrc = DocIcon;
                         }
                     }
                     return (
-                            <div key={data1.name}>
-                                 <ContextMenuTrigger id={'multi'} holdToDisplay={1000}
-                                     collect={collect} >
-                                    <FileIcon imgSrc={imgSrc}/>
-                                </ContextMenuTrigger>
-                                <ContextMenu id={'multi'}>
-                                    <MenuItem onClick={this.handleClick} data={{menu:'Cut'}}>Cut</MenuItem>
-                                    <MenuItem onClick={this.handleClick} data={{menu:'Copy'}}>Copy</MenuItem>
-                                    <MenuItem onClick={this.handleClick} data={{menu:'Delete'}}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handleClick} data={{menu:'Rename'}}>Rename</MenuItem> 
-                                </ContextMenu>
-                            </div>
+                        <div key={data1.name}>
+                            <ContextMenuTrigger id={'multi'} holdToDisplay={1000}
+                                collect={collect} name={data1}>
+                                <FileIcon imgSrc={imgSrc} key={data1.name} ref="iconImage" value={data1} />
+                            </ContextMenuTrigger>
+                        </div>
                     );
                 }) : null}
+                <ContextMenu id={'multi'}>
+                    <MenuItem onClick={this.handleClick} data={{ action: 'Cut' }} key={"1"}>Cut</MenuItem>
+                    <MenuItem onClick={this.handleClick} data={{ action: 'Copy' }} key={"2"}>Copy</MenuItem>
+                    <MenuItem onClick={this.handleClick} data={{ action: 'Delete' }} key={"3"}>Delete</MenuItem>
+                    <MenuItem onClick={this.handleClick} data={{ action: 'Rename' }} key={"4"}>Rename</MenuItem>
+                </ContextMenu>
             </div>
         );
     }
 
-    handleClick(e,data){
-        console.log(data);
+    handleClick(e, data, target) {
+        console.log(this.props.node);
+        console.log(data.name);
     }
 }
 
